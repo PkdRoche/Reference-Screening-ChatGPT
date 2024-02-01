@@ -7,15 +7,15 @@ api_key <- "sk-xxx"
 # Global counter variable
 counter <- 0
 
-# Read the system request from the external .txt file
-system_request <- readLines("request_template50v12r8.txt")
+# Read the system request from the external request_template.txt file
+system_request <- readLines("request_template.txt")
 # Concatenate the system_request into a single string
 full_system_request <- paste(system_request, collapse = "\n")
 
 analyze_text_with_chatgpt <- function(Title, Abstract) {
 
   decisions <- vector("character", 7)
-  
+  #repeat 7 times the query to ChatGPT
   for (i in 1:7) {
     valid_response_received <- FALSE
     retries <- 0
@@ -127,8 +127,8 @@ analyze_text_with_chatgpt <- function(Title, Abstract) {
   return(list(Decision = final_decision, Comment = paste("Decision based on", length(decisions), "runs:", paste(decisions, collapse=", "))))
 }
 
-# Read the .txt file (assuming tab-separated values)
-data <- read.delim("input50Sample2.txt", header = TRUE, stringsAsFactors = FALSE)
+# Read the .txt file (assuming tab-separated values) containing the list of references with code, Title, Abstract
+data <- read.delim("input.txt", header = TRUE, stringsAsFactors = FALSE)
 data <- data[!is.na(data$Abstract) & data$Abstract != "", ]
 
 # Apply the ChatGPT 3.5 turbo analysis function and store the results in a new data frame
@@ -139,4 +139,4 @@ data$Decision <- sapply(results, `[[`, "Decision")
 data$Comments <- sapply(results, `[[`, "Comment")
 
 # Write results to a new CSV file
-write.table(data[, c("Code", "Title", "Decision", "Comments")], "output50Samp2v12r8temp05.txt", sep = "\t", row.names = FALSE, quote = FALSE)
+write.table(data[, c("Code", "Title", "Decision", "Comments")], "output_text.txt", sep = "\t", row.names = FALSE, quote = FALSE)
