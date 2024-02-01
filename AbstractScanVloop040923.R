@@ -2,7 +2,7 @@ library(httr)
 library(jsonlite)
 
 # Define your OpenAI API key here
-api_key <- "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"
+api_key <- "sk-xxx"
 
 # Global counter variable
 counter <- 0
